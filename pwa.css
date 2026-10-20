@@ -1,0 +1,874 @@
+/* iOS / mobile PWA layout layer. Loaded after the desktop styles. */
+
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-touch-callout: none;
+}
+
+body {
+  min-height: 100%;
+}
+
+#viewport {
+  height: var(--app-height, 100vh);
+}
+
+.ios-install {
+  position: fixed;
+  left: 50%;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  max-width: min(440px, calc(100vw - 24px));
+  padding: 9px 10px 9px 11px;
+  border: 1px solid rgba(255, 239, 201, 0.28);
+  border-radius: 14px;
+  background: rgba(30, 22, 16, 0.94);
+  color: #fff2d4;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.34);
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+body.in-game .ios-install {
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  pointer-events: none;
+}
+
+.ios-install-icon {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 2px solid #3b2419;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #ffd767, #f4a51f);
+  color: #432713;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.ios-install-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ios-install-copy strong {
+  font-family: 'Luckiest Guy', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  color: #ffd970;
+  line-height: 1.1;
+}
+
+.ios-install-copy span {
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: rgba(255, 243, 215, 0.84);
+}
+
+.ios-install-close {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 241, 210, 0.25);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 244, 219, 0.8);
+  font-size: 22px;
+  line-height: 1;
+  padding: 0 0 3px;
+}
+
+.ios-install-close:active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#rotateGate {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+  text-align: center;
+  color: #fff2d4;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(82, 169, 192, 0.24), transparent 55%),
+    #0b171c;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#rotateGate strong {
+  font-family: 'Luckiest Guy', 'Nunito', sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #ffd35e;
+}
+
+#rotateGate p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 242, 212, 0.75);
+}
+
+.rotate-phone {
+  width: 62px;
+  height: 100px;
+  border: 4px solid rgba(255, 238, 197, 0.8);
+  border-radius: 12px;
+  position: relative;
+  margin-bottom: 12px;
+  transform: rotate(90deg);
+  animation: rotateNudge 2.4s ease-in-out infinite;
+}
+
+.rotate-phone::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 3px;
+  border-radius: 4px;
+  background: rgba(255, 238, 197, 0.7);
+  left: 50%;
+  bottom: 7px;
+  transform: translateX(-50%);
+}
+
+.rotate-phone span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 2px solid #ffd35e;
+  border-left: 0;
+  border-bottom: 0;
+  right: -15px;
+  top: -9px;
+  transform: rotate(45deg);
+}
+
+@keyframes rotateNudge {
+  0%,
+  35% {
+    transform: rotate(90deg);
+  }
+  55%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@media (orientation: portrait) and (pointer: coarse) {
+  #rotateGate {
+    display: flex;
+  }
+}
+
+@media (display-mode: standalone) {
+  .ios-install {
+    display: none !important;
+  }
+}
+
+/* ================================================================
+   PHONE LANDSCAPE
+   The game virtual stage is 1600 x 900. These overrides enlarge the
+   interface so it stays readable on a 390-430 px tall phone screen.
+   ================================================================ */
+@media (orientation: landscape) and (max-height: 520px) {
+  /* ---------- main menu ---------- */
+  .menu-top {
+    top: 18px;
+    left: 24px;
+    right: 24px;
+    justify-content: flex-end;
+  }
+
+  .edition-pill {
+    display: none;
+  }
+
+  .menu-top .audio-button {
+    width: 84px;
+    height: 84px;
+    border-width: 4px;
+  }
+
+  .menu-top .audio-button svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .menu-hero {
+    top: 74px;
+    left: 54px;
+    width: 940px;
+  }
+
+  .menu-screen::before {
+    background:
+      linear-gradient(90deg, rgba(22, 21, 15, 0.5) 0%, rgba(26, 24, 16, 0.22) 42%, transparent 68%),
+      linear-gradient(0deg, rgba(27, 18, 10, 0.58) 0%, transparent 26%);
+  }
+
+  .kicker {
+    gap: 11px;
+    font-size: 17px;
+    letter-spacing: 2.8px;
+  }
+
+  .kicker-line {
+    width: 27px;
+  }
+
+  .logo {
+    margin-top: 13px;
+  }
+
+  .logo-angry {
+    font-size: 79px;
+    letter-spacing: 12px;
+    -webkit-text-stroke: 10px #3a2115;
+  }
+
+  .logo-aviators {
+    margin-top: 4px;
+    font-size: 176px;
+    letter-spacing: -6px;
+    -webkit-text-stroke: 11px #3a2115;
+  }
+
+  .tagline {
+    margin-top: 25px;
+    max-width: 690px;
+    font-size: 28px;
+    line-height: 1.34;
+  }
+
+  .menu-actions {
+    gap: 14px;
+    margin-top: 25px;
+    margin-left: 4px;
+  }
+
+  #btnPlay {
+    width: 476px;
+    min-height: 108px;
+    padding: 9px 27px;
+    border-width: 4px;
+    border-radius: 22px;
+  }
+
+  #btnPlay .btn-play-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  #btnPlay .btn-play-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  #btnPlay .btn-main {
+    font-size: 44px;
+    letter-spacing: 3px;
+  }
+
+  #btnPlay .btn-sub {
+    font-size: 17px;
+    letter-spacing: 0.4px;
+  }
+
+  .menu-secondary {
+    gap: 14px;
+  }
+
+  .btn-small {
+    min-height: 80px;
+    padding: 0 30px;
+    font-size: 27px;
+    border-width: 3px;
+    border-radius: 16px;
+  }
+
+  .btn-small svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .menu-save-line,
+  .menu-footer {
+    display: none;
+  }
+
+  /* ---------- level select ---------- */
+  .level-header {
+    top: 18px;
+    left: 28px;
+    right: 28px;
+  }
+
+  .level-header .back-button {
+    width: 82px;
+    height: 82px;
+    border-width: 4px;
+  }
+
+  .level-header .back-button svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  .level-heading .kicker {
+    display: none;
+  }
+
+  .level-heading h2 {
+    margin-top: 0;
+    font-size: 57px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 5px 0 #4b2a18, 0 9px 18px rgba(0, 0, 0, 0.32);
+  }
+
+  .total-stars {
+    min-height: 68px;
+    padding: 0 20px;
+    gap: 10px;
+    font-size: 35px;
+    border-width: 2px;
+  }
+
+  .total-stars .big-star {
+    width: 30px;
+    height: 30px;
+  }
+
+  .total-stars small {
+    font-size: 16px;
+  }
+
+  .level-grid {
+    top: 118px;
+    width: 1520px;
+    gap: 14px;
+  }
+
+  .level-card {
+    height: 220px;
+    border-width: 4px;
+    border-radius: 20px;
+    box-shadow:
+      0 8px 0 rgba(24, 14, 9, 0.5),
+      0 13px 22px rgba(0, 0, 0, 0.24);
+  }
+
+  .level-card:not(.locked):hover {
+    transform: translateY(-3px);
+  }
+
+  .level-thumb {
+    right: 6px;
+    bottom: 43px;
+    width: 228px;
+    height: 150px;
+  }
+
+  .card-level {
+    top: 15px;
+    left: 18px;
+    font-size: 39px;
+  }
+
+  .card-rank {
+    display: none;
+  }
+
+  .card-name {
+    left: 18px;
+    right: 98px;
+    bottom: 15px;
+    font-size: 31px;
+    line-height: 1.02;
+  }
+
+  .card-stars {
+    right: 16px;
+    bottom: 14px;
+    font-size: 27px;
+    gap: 3px;
+  }
+
+  .card-lock svg {
+    width: 66px;
+    height: 66px;
+    padding: 14px;
+    border-radius: 17px;
+  }
+
+  .level-card.is-next::after {
+    top: 51px;
+    right: -36px;
+    width: 158px;
+    padding: 5px 0;
+    font-size: 16px;
+    letter-spacing: 1.6px;
+  }
+
+  .level-footer {
+    display: none;
+  }
+
+  /* ---------- in-game HUD ---------- */
+  .hud-top {
+    top: 14px;
+    left: 18px;
+    right: 18px;
+  }
+
+  .hud-left {
+    gap: 14px;
+  }
+
+  .hud-button {
+    width: 94px;
+    height: 94px;
+    border-width: 4px;
+    border-radius: 50%;
+  }
+
+  .hud-button svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hud-right {
+    gap: 12px;
+  }
+
+  .level-chip span {
+    font-size: 17px;
+    letter-spacing: 2.6px;
+    opacity: 0.82;
+  }
+
+  .level-chip strong {
+    font-size: 33px;
+    line-height: 1.05;
+  }
+
+  .score-plaque {
+    min-width: 276px;
+    padding: 9px 28px 10px;
+    border-width: 4px;
+    border-radius: 16px;
+  }
+
+  .score-plaque span {
+    font-size: 15px;
+    letter-spacing: 3px;
+  }
+
+  .score-plaque b {
+    font-size: 48px;
+  }
+
+  .score-plaque::before,
+  .score-plaque::after {
+    top: 13px;
+    width: 7px;
+    height: 7px;
+  }
+
+  .toast {
+    top: 126px;
+    max-width: 1390px;
+    padding: 10px 22px 10px 11px;
+    gap: 11px;
+    font-size: 25px;
+    white-space: nowrap;
+  }
+
+  .toast-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
+  .flock-panel {
+    left: 18px;
+    bottom: 64px;
+    gap: 8px;
+    padding: 9px 16px 9px 14px;
+    border-radius: 999px;
+  }
+
+  .flock-label {
+    display: none;
+  }
+
+  .bird-queue {
+    gap: 7px;
+  }
+
+  .bird-token {
+    width: 54px;
+    height: 54px;
+    border-width: 3px;
+  }
+
+  .bird-token.current {
+    width: 66px;
+    height: 66px;
+  }
+
+  .bird-token[data-type='blues'] {
+    width: 50px;
+    height: 50px;
+  }
+
+  .pig-counter {
+    gap: 7px;
+    padding-left: 10px;
+    font-size: 20px;
+    letter-spacing: 0.8px;
+  }
+
+  .pig-counter::before {
+    width: 21px;
+    height: 21px;
+    border-width: 2px;
+  }
+
+  .ability-card {
+    right: 18px;
+    bottom: 64px;
+    min-width: 466px;
+    gap: 15px;
+    padding: 13px 22px 13px 14px;
+    border-width: 4px;
+    border-radius: 20px;
+  }
+
+  .ability-key {
+    min-width: 76px;
+    height: 60px;
+    padding: 0 10px;
+    border-radius: 11px;
+    font-size: 18px;
+  }
+
+  .ability-copy strong {
+    font-size: 30px;
+  }
+
+  .ability-copy small {
+    font-size: 16px;
+  }
+
+  .game-bottom-hint {
+    display: none;
+  }
+
+  /* ---------- modal panels ---------- */
+  .modal-card {
+    width: 980px;
+    padding: 52px 54px 42px;
+    border-width: 5px;
+    border-radius: 32px;
+  }
+
+  .panel-ribbon {
+    top: -31px;
+    min-width: 285px;
+    padding: 11px 30px 12px;
+    border-width: 4px;
+    font-size: 29px;
+    border-radius: 10px;
+  }
+
+  .panel-kicker {
+    margin-top: 8px;
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+
+  .modal-card h2 {
+    margin-top: 10px;
+    font-size: 78px;
+    letter-spacing: 1.8px;
+  }
+
+  .pause-actions {
+    margin-top: 34px;
+    gap: 17px;
+  }
+
+  .btn-panel {
+    min-height: 98px;
+    border-width: 4px;
+    border-radius: 20px;
+    font-size: 28px;
+  }
+
+  .btn-panel .btn-main {
+    font-size: 36px;
+    letter-spacing: 2px;
+  }
+
+  .btn-panel .btn-sub {
+    font-size: 17px;
+  }
+
+  .panel-row {
+    gap: 16px;
+  }
+
+  .btn-panel.btn-wood,
+  .btn-panel.btn-ghost {
+    padding: 0 24px;
+    gap: 12px;
+  }
+
+  .toggle-pill {
+    padding: 11px 22px;
+    gap: 12px;
+    border-width: 3px;
+    font-size: 18px;
+    letter-spacing: 1.3px;
+  }
+
+  .toggle-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .panel-footnote {
+    margin-top: 24px;
+    font-size: 17px;
+  }
+
+  kbd {
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  /* How to play needs more room for larger copy. */
+  .how-card {
+    width: 1510px;
+    max-height: 858px;
+    padding: 27px 32px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .how-card h2 {
+    font-size: 62px;
+  }
+
+  .how-card .panel-kicker {
+    font-size: 17px;
+  }
+
+  .modal-close {
+    top: 20px;
+    right: 20px;
+    width: 58px;
+    height: 58px;
+    border-width: 3px;
+  }
+
+  .modal-close svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .how-steps {
+    gap: 18px;
+    margin-top: 22px;
+  }
+
+  .how-step {
+    min-height: 266px;
+    padding: 22px 22px 20px;
+    border-radius: 17px;
+  }
+
+  .step-num {
+    top: 17px;
+    right: 18px;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .step-art {
+    width: 66px;
+    height: 61px;
+    margin-bottom: 11px;
+    transform: scale(1.25);
+    transform-origin: left bottom;
+  }
+
+  .how-step h3 {
+    font-size: 29px;
+    margin-bottom: 7px;
+  }
+
+  .how-step p {
+    font-size: 23px;
+    line-height: 1.42;
+  }
+
+  .bird-guide-heading {
+    margin-top: 22px;
+    font-size: 15px;
+    letter-spacing: 2.2px;
+  }
+
+  .bird-guide {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .bird-chip {
+    gap: 12px;
+    padding: 11px 13px;
+    border-radius: 12px;
+  }
+
+  .chip-avatar {
+    width: 42px;
+    height: 42px;
+    border-width: 2px;
+  }
+
+  .chip-copy strong {
+    font-size: 23px;
+  }
+
+  .chip-copy small {
+    margin-top: 3px;
+    font-size: 19px;
+    line-height: 1.35;
+  }
+
+  .how-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    font-size: 15px;
+    letter-spacing: 0.6px;
+    gap: 14px;
+  }
+
+  .how-footer .btn {
+    min-height: 76px;
+    font-size: 25px;
+    padding: 0 34px;
+  }
+
+  /* Result panel */
+  .result-card {
+    width: 1000px;
+    padding-bottom: 40px;
+  }
+
+  .result-card h2 {
+    font-size: 70px;
+  }
+
+  .result-stars {
+    gap: 10px;
+    margin: 16px 0 11px;
+  }
+
+  .result-star {
+    font-size: 80px;
+    -webkit-text-stroke: 3px rgba(101, 64, 30, 0.3);
+  }
+
+  .result-message {
+    max-width: 790px;
+    margin-bottom: 20px;
+    font-size: 23px;
+    line-height: 1.4;
+  }
+
+  .result-scoreboard {
+    margin-bottom: 24px;
+    border-width: 3px;
+    border-radius: 15px;
+  }
+
+  .result-score {
+    padding: 13px 10px 11px;
+  }
+
+  .result-score span {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .result-score b {
+    font-size: 40px;
+  }
+
+  .result-actions {
+    gap: 16px;
+  }
+
+  .result-card .panel-row .btn {
+    min-height: 80px;
+    font-size: 25px;
+  }
+}
+
+/* Very short phones: make the level grid slightly shorter. */
+@media (orientation: landscape) and (max-height: 395px) {
+  .level-grid {
+    top: 112px;
+  }
+
+  .level-card {
+    height: 212px;
+  }
+
+  .level-thumb {
+    bottom: 40px;
+    height: 142px;
+    width: 216px;
+  }
+
+  .card-name {
+    font-size: 29px;
+  }
+
+  .how-card {
+    max-height: 840px;
+  }
+}

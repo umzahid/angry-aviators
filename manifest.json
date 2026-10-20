@@ -1,0 +1,42 @@
+{
+  "id": "./",
+  "name": "Angry Aviators",
+  "short_name": "Aviators",
+  "description": "A twelve-level slingshot physics adventure. Original art, original sound, zero sympathy for bacon.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "landscape",
+  "background_color": "#0c171b",
+  "theme_color": "#123a4a",
+  "categories": [
+    "games",
+    "entertainment"
+  ],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

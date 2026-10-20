@@ -1,0 +1,27 @@
+ANGRY AVIATORS — THIRD-PARTY NOTICES
+
+This game is built with the following open-source software. The full license
+texts are included in this package where applicable.
+
+Electron
+  Copyright (c) Electron contributors
+  Copyright (c) 2013-2020 GitHub Inc.
+  MIT License — https://github.com/electron/electron
+
+Matter.js
+  Copyright (c) Liam Brummitt and contributors.
+  MIT License — https://github.com/liabru/matter-js
+
+Luckiest Guy (font)
+  Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI).
+  SIL Open Font License 1.1 — see assets/fonts/LICENSE-LuckiestGuy.txt
+
+Nunito (font)
+  Copyright 2014 The Nunito Project Authors.
+  SIL Open Font License 1.1 — see assets/fonts/LICENSE-Nunito.txt
+
+Chromium and its bundled components are distributed under the licenses
+included with the Electron runtime (LICENSES.chromium.html).
+
+All game artwork, level layouts, sound effects, music, and code in this
+project are original works created for Angry Aviators.

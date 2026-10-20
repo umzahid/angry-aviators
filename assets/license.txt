@@ -1,0 +1,31 @@
+ANGRY AVIATORS
+
+A twelve-level slingshot physics adventure.
+
+INSTALLING
+Run AngryAviators-Setup.exe and follow the prompts. The game installs for the
+current user and needs no additional runtime. Choose any install folder you
+like; a desktop shortcut and Start menu entry are created automatically.
+
+CONTROLS
+  Drag the bird back, then release to launch.
+  Click, tap, or press Space during flight to trigger the bird's ability.
+  Esc pauses. M mutes. F11 toggles fullscreen.
+
+THE FLOCK
+  Red       Battle Cry    A furious mid-air boost.
+  Chuck     Turbo Dash    A rocket-like dash.
+  Bomb      Big Bang      An explosive blast on command.
+  The Blues Triple Trouble Splits into three birds.
+
+Save progress is stored in %APPDATA%\angry-aviators. Uninstalling the game
+keeps that folder; delete it manually to erase all stars and progress.
+
+This game is an original homage to the slingshot genre. It contains no
+third-party game artwork or audio. All visuals are drawn in code and all
+sound is synthesized at runtime. Built with Electron and Matter.js; see the
+installed THIRD-PARTY-NOTICES.txt and the bundled font licenses.
+
+Not affiliated with or endorsed by Rovio Entertainment.
+
+Have fun, and fly true.

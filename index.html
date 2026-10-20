@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+  <title>Angry Aviators</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <meta name="description" content="Angry Aviators — a twelve-level slingshot physics adventure. Drag, launch, and topple the piggy fortresses." />
+  <meta name="theme-color" content="#123a4a" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Angry Aviators" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Angry Aviators" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/favicon-64.png" />
+  <link rel="stylesheet" href="pwa.css" />
+</head>
+<body>
+  <div id="viewport">
+    <div id="stage">
+      <canvas id="menuCanvas" class="scene-canvas" width="2400" height="1350" aria-hidden="true"></canvas>
+      <canvas id="gameCanvas" class="scene-canvas hidden" width="2400" height="1350" aria-label="Angry Aviators game area"></canvas>
+      <div class="film-grain" aria-hidden="true"></div>
+
+      <section id="menuScreen" class="screen menu-screen">
+        <header class="menu-top">
+          <div class="edition-pill"><span class="edition-dot"></span> WEB EDITION <span class="edition-sep">/</span> v<span id="menuVersion">1.0.1</span></div>
+          <button id="audioMenuBtn" class="round-button audio-button" type="button" title="Toggle sound (M)" aria-label="Toggle sound">
+            <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9.5h3.5L13 5v14l-5.5-4.5H4z" />
+              <path class="sound-wave" d="M16 8.2c1.1 1 1.7 2.3 1.7 3.8s-.6 2.8-1.7 3.8" />
+              <path class="sound-wave" d="M18.6 5.5c1.8 1.7 2.8 4 2.8 6.5s-1 4.8-2.8 6.5" />
+              <path class="sound-slash" d="M16 8l6 8" />
+            </svg>
+          </button>
+        </header>
+
+        <div class="menu-hero">
+          <div class="kicker"><span class="kicker-line"></span> A SLINGSHOT ADVENTURE <span class="kicker-line"></span></div>
+          <h1 class="logo" aria-label="Angry Aviators">
+            <span class="logo-angry">ANGRY</span>
+            <span class="logo-aviators">AVIATORS</span>
+          </h1>
+          <p class="tagline">Twelve piggy fortresses. Four furious birds.<br /><em>Zero sympathy for bacon.</em></p>
+
+          <div class="menu-actions">
+            <button id="btnPlay" class="btn btn-play" type="button">
+              <span class="btn-play-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M8 5.3v13.4L19 12z" /></svg>
+              </span>
+              <span class="btn-play-copy">
+                <span class="btn-main">PLAY</span>
+                <span class="btn-sub" id="playSub">Start the adventure</span>
+              </span>
+            </button>
+            <div class="menu-secondary">
+              <button id="btnLevels" class="btn btn-wood btn-small" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" /></svg>
+                LEVELS
+              </button>
+              <button id="btnHow" class="btn btn-ghost btn-small" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9.7 9a2.4 2.4 0 1 1 3.4 2.2c-.7.4-1.1.9-1.1 1.8v.2" /><circle cx="12" cy="17" r=".8" fill="currentColor" stroke="none" /></svg>
+                HOW TO PLAY
+              </button>
+            </div>
+          </div>
+
+          <div class="menu-save-line">
+            <span id="menuStarStrip" class="star-strip" aria-hidden="true"></span>
+            <span id="menuSaveSummary">A twelve-level slingshot adventure</span>
+          </div>
+        </div>
+
+        <footer class="menu-footer">
+          <div class="control-hint"><span class="mouse-glyph" aria-hidden="true"></span> DRAG TO AIM <span class="hint-divider"></span> RELEASE TO FLY</div>
+          <div class="footer-credit">ORIGINAL ART &amp; SOUND · PLAYS IN YOUR BROWSER</div>
+        </footer>
+      </section>
+
+      <section id="levelScreen" class="screen level-screen hidden">
+        <header class="level-header">
+          <button id="btnLevelsBack" class="round-button back-button" type="button" aria-label="Back to menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 7.5 12l7 7" /><path d="M8 12h11" /></svg>
+          </button>
+          <div class="level-heading">
+            <div class="kicker"><span class="kicker-line"></span> THE FLOCK NEEDS YOU <span class="kicker-line"></span></div>
+            <h2>CHOOSE YOUR <span>CHALLENGE</span></h2>
+          </div>
+          <div class="total-stars" title="Stars collected">
+            <svg class="big-star" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z" /></svg>
+            <span id="totalStars">0</span><small>/36</small>
+          </div>
+        </header>
+        <div id="levelGrid" class="level-grid" aria-label="Level selection"></div>
+        <footer class="level-footer">
+          <span class="level-legend"><span class="legend-star">★</span> EARN STARS WITH FEWER BIRDS &amp; MORE CHAOS</span>
+          <span class="level-legend">CLEAR A LEVEL TO UNLOCK THE NEXT</span>
+        </footer>
+      </section>
+
+      <section id="gameScreen" class="screen game-screen hidden">
+        <div class="hud-top">
+          <div class="hud-left">
+            <button id="gameHomeBtn" class="round-button hud-button" type="button" title="Pause game" aria-label="Pause game">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5" /><path d="M5.5 10.5V20h13v-9.5" /><path d="M9.5 20v-5.5h5V20" /></svg>
+            </button>
+            <div class="level-chip">
+              <span id="hudLevelNo">LEVEL 01</span>
+              <strong id="hudLevelName">First Flight</strong>
+            </div>
+          </div>
+          <div class="score-plaque">
+            <span>SCORE</span>
+            <b id="scoreValue">0</b>
+          </div>
+          <div class="hud-right">
+            <button id="hudAudioBtn" class="round-button hud-button audio-button" type="button" title="Toggle sound (M)" aria-label="Toggle sound">
+              <svg class="icon-sound" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9.5h3.5L13 5v14l-5.5-4.5H4z" />
+                <path class="sound-wave" d="M16 8.2c1.1 1 1.7 2.3 1.7 3.8s-.6 2.8-1.7 3.8" />
+                <path class="sound-wave" d="M18.6 5.5c1.8 1.7 2.8 4 2.8 6.5s-1 4.8-2.8 6.5" />
+                <path class="sound-slash" d="M16 8l6 8" />
+              </svg>
+            </button>
+            <button id="pauseBtn" class="round-button hud-button" type="button" title="Pause (Esc)" aria-label="Pause">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1.3" fill="currentColor" stroke="none" /><rect x="13.5" y="5" width="4" height="14" rx="1.3" fill="currentColor" stroke="none" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="toast" class="toast" role="status" aria-live="polite">
+          <span id="toastIcon" class="toast-icon">!</span>
+          <span id="toastText">Drag the bird back, then release to fly.</span>
+        </div>
+
+        <div id="flockPanel" class="flock-panel">
+          <span class="flock-label">FLOCK</span>
+          <div id="birdQueue" class="bird-queue"></div>
+          <span id="pigCounter" class="pig-counter"></span>
+        </div>
+
+        <button id="abilityCard" class="ability-card hidden" type="button">
+          <span class="ability-key">SPACE</span>
+          <span class="ability-copy">
+            <strong id="abilityName">Battle Cry</strong>
+            <small id="abilityHint">Tap anywhere to unleash</small>
+          </span>
+          <span class="ability-burst" aria-hidden="true"></span>
+        </button>
+
+        <div class="game-bottom-hint"><span class="mouse-glyph" aria-hidden="true"></span> DRAG · RELEASE · CAUSE TROUBLE</div>
+      </section>
+
+      <div id="modalLayer" class="modal-layer hidden">
+        <div id="pauseModal" class="modal-card pause-card hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+          <div class="panel-ribbon">HOLD THAT SHOT</div>
+          <p class="panel-kicker">TAKE A BREATHER</p>
+          <h2 id="pauseTitle">PAUSED</h2>
+          <div class="pause-actions">
+            <button id="btnResume" class="btn btn-play btn-panel" type="button"><span class="btn-main">RESUME</span><span class="btn-sub">Back to the action</span></button>
+            <div class="panel-row">
+              <button id="btnRestart" class="btn btn-wood btn-panel" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.3-5.6" /><path d="M20 4v7h-7" /></svg> RESTART</button>
+              <button id="btnPauseLevels" class="btn btn-ghost btn-panel" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" /></svg> LEVELS</button>
+            </div>
+            <button id="audioPauseBtn" class="toggle-pill" type="button">
+              <span class="toggle-dot"></span><span class="toggle-label">SOUND ON</span>
+            </button>
+          </div>
+          <p class="panel-footnote">Press <kbd>Esc</kbd> to resume</p>
+        </div>
+
+        <div id="howModal" class="modal-card how-card hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+          <button id="btnCloseHow" class="modal-close" type="button" aria-label="Close how to play">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+          </button>
+          <p class="panel-kicker">READ THE FIELD MANUAL</p>
+          <h2 id="howTitle">HOW TO PLAY</h2>
+          <div class="how-steps">
+            <div class="how-step">
+              <div class="step-num">1</div>
+              <span class="step-art aim-art" aria-hidden="true"></span>
+              <h3>PULL &amp; RELEASE</h3>
+              <p>Drag the bird back in the slingshot. A dotted arc shows your shot. Let go to fly.</p>
+            </div>
+            <div class="how-step">
+              <div class="step-num">2</div>
+              <span class="step-art smash-art" aria-hidden="true"></span>
+              <h3>POP THE PIGS</h3>
+              <p>Smash their forts, drop the blocks, or hit them directly. Clear every pig to win.</p>
+            </div>
+            <div class="how-step">
+              <div class="step-num">3</div>
+              <span class="step-art power-art" aria-hidden="true"></span>
+              <h3>TAP FOR POWER</h3>
+              <p>Click, tap, or press <kbd>Space</kbd> during flight to trigger your bird's special move.</p>
+            </div>
+          </div>
+          <div class="bird-guide-heading">MEET THE FLOCK</div>
+          <div id="birdGuide" class="bird-guide"></div>
+          <div class="how-footer">
+            <span><kbd>ESC</kbd> PAUSE &nbsp;·&nbsp; <kbd>M</kbd> MUTE &nbsp;·&nbsp; <kbd>F11</kbd> FULLSCREEN</span>
+            <button id="btnHowDone" class="btn btn-play btn-compact" type="button">GOT IT</button>
+          </div>
+        </div>
+
+        <div id="resultModal" class="modal-card result-card hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+          <div id="resultRibbon" class="panel-ribbon">LEVEL CLEARED</div>
+          <p id="resultKicker" class="panel-kicker">THE PIGS NEVER STOOD A CHANCE</p>
+          <h2 id="resultTitle">NICE SHOT!</h2>
+          <div id="resultStars" class="result-stars" aria-label="Stars earned">
+            <span class="result-star">★</span><span class="result-star">★</span><span class="result-star">★</span>
+          </div>
+          <p id="resultMessage" class="result-message">The fortress is rubble and the bacon is... elsewhere.</p>
+          <div class="result-scoreboard">
+            <div class="result-score"><span>SCORE</span><b id="resultScore">0</b></div>
+            <div class="result-score best"><span>BEST</span><b id="resultBest">0</b></div>
+            <div class="result-score"><span>BIRDS LEFT</span><b id="resultBirds">0</b></div>
+          </div>
+          <div class="result-actions">
+            <button id="btnResultNext" class="btn btn-play btn-panel" type="button"><span class="btn-main">NEXT LEVEL</span><span class="btn-sub">Keep the streak alive</span></button>
+            <div class="panel-row">
+              <button id="btnResultReplay" class="btn btn-wood btn-panel" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.3-5.6" /><path d="M20 4v7h-7" /></svg> REPLAY</button>
+              <button id="btnResultLevels" class="btn btn-ghost btn-panel" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" /></svg> LEVELS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <noscript><div class="noscript">Angry Aviators needs JavaScript enabled.</div></noscript>
+    </div>
+  </div>
+
+  <script src="js/vendor/matter.min.js"></script>
+  <script type="module" src="js/game.js"></script>
+  <script src="pwa.js" defer></script>
+</body>
+</html>
